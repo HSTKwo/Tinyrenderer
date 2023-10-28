@@ -1,29 +1,29 @@
 #include"Gmath.h"
 #include"Model.h"
 
-Vector3 light_dir(0., 0., -1.f);									//´¹Ö±¹âÔ´
-Vector3 cameraPos(0, 0, 3);											//Ïà»úÎ»ÖÃ
+Vector3 light_dir(0., 0., -1.f);									//ï¿½ï¿½Ö±ï¿½ï¿½Ô´
+Vector3 cameraPos(0, 0, 3);											//ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-void Triangle(HDC, Vector3*, COLORREF); 							//Èý½ÇÐÎ
-void TriangleFace(HDC hdc, float*, Vector3* a, COLORREF color);		//Èý½ÇÐÎÃæ
-Vector3 baryCentric(Vector3*, Vector3);								//Èý½ÇÐÎÖØÐÄ
-Vector3 world2screen(Vector3);										//ÊÀ½ç×ø±ê×ª»»ÆÁÄ»×ø±ê
-Matrix local2homo(Vector3);											//×ø±ê×ª»»ÎªÆë´Î×ø±ê
-Matrix modelMatrix();												//Ä£ÐÍ±ä»»¾ØÕó
-Matrix viewMatrix();												//ÊÓÍ¼±ä»»¾ØÕó
-Matrix projectionMatrix();											//Í¶Ó°±ä»»¾ØÕó
-Matrix projectionDivision(Matrix);									//Í¸ÊÓ³ý·¨
-Matrix viewportMatrix(int, int, int, int);							//ÊÓ¿Ú±ä»»¾ØÕó
-Vector3 homo2vertices(Matrix m);									//Æë´Î×ø±ê»Ö¸´ÈýÎ¬×ø±ê
+void Triangle(HDC, Vector3*, COLORREF); 							//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+void TriangleFace(HDC hdc, float*, Vector3* a, COLORREF color);		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+Vector3 baryCentric(Vector3*, Vector3);								//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+Vector3 world2screen(Vector3);										//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½
+Matrix local2homo(Vector3);											//ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+Matrix modelMatrix();												//Ä£ï¿½Í±ä»»ï¿½ï¿½ï¿½ï¿½
+Matrix viewMatrix();												//ï¿½ï¿½Í¼ï¿½ä»»ï¿½ï¿½ï¿½ï¿½
+Matrix projectionMatrix();											//Í¶Ó°ï¿½ä»»ï¿½ï¿½ï¿½ï¿½
+Matrix projectionDivision(Matrix);									//Í¸ï¿½Ó³ï¿½ï¿½ï¿½
+Matrix viewportMatrix(int, int, int, int);							//ï¿½Ó¿Ú±ä»»ï¿½ï¿½ï¿½ï¿½
+Vector3 homo2vertices(Matrix m);									//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance,LPSTR lpCmdline, int nCmdShow)
 {
 	static TCHAR szAppName[] = TEXT("HSTK");
-	HWND hwnd;				//´°¿Ú¾ä±ú
-	MSG msg;				//ÏûÏ¢½á¹¹
-	WNDCLASS wndclass;		//´°¿ÚÀà
+	HWND hwnd;				//ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½
+	MSG msg;				//ï¿½ï¿½Ï¢ï¿½á¹¹
+	WNDCLASS wndclass;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	//´°¿ÚÀà³õÊ¼»¯
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 	wndclass.style = CS_HREDRAW | CS_VREDRAW;
 	wndclass.lpfnWndProc = WndProc;
 	wndclass.cbClsExtra = 0;
@@ -35,7 +35,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance,LPSTR lpCmdline, int nCm
 	wndclass.lpszMenuName = NULL;
 	wndclass.lpszClassName = szAppName;
 
-	//×¢²á´°¿Ú
+	//×¢ï¿½á´°ï¿½ï¿½
 	if (!RegisterClass(&wndclass))
 	{
 		MessageBox(NULL, TEXT("This progrma requires Windows NOT !"),
@@ -43,9 +43,9 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance,LPSTR lpCmdline, int nCm
 		return 0;
 	}
 
-	// ´´½¨´°¿Ú²¢»ñÈ¡´°¿Ú¾ä±ú
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½
 	hwnd = CreateWindow(szAppName,		// window class name
-		TEXT("Graphic"),				// window caption(±êÌâ)
+		TEXT("Graphic"),				// window caption(ï¿½ï¿½ï¿½ï¿½)
 		WS_OVERLAPPEDWINDOW,			// window style
 		CW_USEDEFAULT,					// initial x position
 		CW_USEDEFAULT,					// initial y position
@@ -55,10 +55,10 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance,LPSTR lpCmdline, int nCm
 		NULL,							// window menu handle
 		hInstance,						// program instance handle
 		NULL);							// crea
-	//ÏÔÊ¾´°¿Ú²¢¸üÐÂ
+	//ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½
 	ShowWindow(hwnd, nCmdShow);
 	UpdateWindow(hwnd);
-	//ÏûÏ¢´¦Àí
+	//ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
 	while (GetMessage(&msg, NULL, 0, 0)) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
@@ -93,15 +93,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		Model* model = new Model("D:\\C-CODE\\Visual Studio 2022\\C Graphics\\C Graphics\\obj\\african_head\\african_head.obj");
 		for (int i = 0; i < model->nFaces(); i++)
 		{
-			vector<int> face = model->face(i);				//»ñÈ¡Ä£ÐÍµÄµÚi¸öÃæÆ¬
-			Vector3 screenCoords[3];						//ÆÁÄ»×ø±ê
-			Vector3 worldCoords[3];							//ÊÀ½ç×ø±ê
+			vector<int> face = model->face(i);				//ï¿½ï¿½È¡Ä£ï¿½ÍµÄµï¿½iï¿½ï¿½ï¿½ï¿½Æ¬
+			Vector3 screenCoords[3];						//ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½
+			Vector3 worldCoords[3];							//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			for (int j = 0; j < 3; j++)
 			{
 				worldCoords[j] = model->vert(face[j]);		
 				screenCoords[j] = homo2vertices(viewport_ * projectionDivision(projection_ * view_ * model_ * local2homo(worldCoords[j])));
 			}
-			//·¨Ïß
+			//ï¿½ï¿½ï¿½ï¿½
 			Vector3 normal = (worldCoords[0] - worldCoords[1]) ^ (worldCoords[2] - worldCoords[1]);
 			normal.normalize();
 			float intensity = normal * light_dir;
@@ -163,7 +163,7 @@ void Triangle(HDC hdc, Vector3* a, COLORREF color)
 	if (a[1].y > a[2].y)
 		swap(a[1], a[2]);
 
-	//ÉÏÏÂ¶Ô³Æ·´×ª
+	//ï¿½ï¿½ï¿½Â¶Ô³Æ·ï¿½×ª
 	//float centerY = (a[0].y + a[1].y + a[2].y) / 3;
 	//a[0].y = 2 * centerY - a[0].y;
 	//a[1].y = 2 * centerY - a[1].y;
@@ -177,9 +177,9 @@ void Triangle(HDC hdc, Vector3* a, COLORREF color)
 	drawLineDDA(hdc, a[1].x, a[1].y, a[2].x, a[2].y, color);
 	drawLineDDA(hdc, a[2].x, a[2].y, a[0].x, a[0].y, color);
 	
-	//Ìî³ä
+	//ï¿½ï¿½ï¿½
 	//int total_height = a[2].y - a[0].y;
-	//for (int i = a[0].y; i <= a[1].y; i++)		//ÉÏ°ë²¿·Ö
+	//for (int i = a[0].y; i <= a[1].y; i++)		//ï¿½Ï°ë²¿ï¿½ï¿½
 	//{
 	//	int seg_height = a[1].y - a[0].y + 1;
 	//	float k1 = (float)(i - a[0].y) / total_height;
@@ -190,7 +190,7 @@ void Triangle(HDC hdc, Vector3* a, COLORREF color)
 	//	for (int j = v1.x; j <= v2.x; j++)
 	//		SetPixel(hdc, j, i, color);
 	//}
-	//for (int i = a[1].y; i <= a[2].y; i++)		//ÏÂ°ë²¿·Ö
+	//for (int i = a[1].y; i <= a[2].y; i++)		//ï¿½Â°ë²¿ï¿½ï¿½
 	//{
 	//	int seg_height = a[2].y - a[1].y + 1;
 	//	float k1 = (float)(i - a[0].y) / total_height;
@@ -213,9 +213,9 @@ void TriangleFace(HDC hdc, float* zBuffer, Vector3* a, COLORREF color)
 	bboxmax.x = max(bboxmax.x, max(a[0].x, max(a[1].x, a[2].x)));
 	bboxmax.y = max(bboxmax.y, max(a[0].y, max(a[1].y, a[2].y)));
 
-	int min_x = (int)floor(bboxmin.x);		//ÏòÏÂÈ¡Õû
+	int min_x = (int)floor(bboxmin.x);		//ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½
 	int min_y = (int)floor(bboxmin.y);
-	int max_x = (int)ceil(bboxmax.x);		//ÏòÉÏÈ¡Õû
+	int max_x = (int)ceil(bboxmax.x);		//ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½
 	int max_y = (int)ceil(bboxmax.y);
 							
 	for (int i = min_x; i <= max_x; i++)
@@ -224,10 +224,10 @@ void TriangleFace(HDC hdc, float* zBuffer, Vector3* a, COLORREF color)
 		{	
 			Vector3 p(i, j, 0);
 			Vector3 barycoord = baryCentric(a, p);
-			if (barycoord.x < -0.01 || barycoord.y < -0.01 || barycoord.z < -0.01)	//²»ÔÚÈý½ÇÐÎÄÚ
+			if (barycoord.x < -0.01 || barycoord.y < -0.01 || barycoord.z < -0.01)	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				continue;
 			float z_interpolation = barycoord.x * a[0].z + barycoord.y * a[1].z + barycoord.z * a[2].z;
-			//¸ÃÏñËØµãµÄzÖµ
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½zÖµ
 			if (z_interpolation > zBuffer[i + j * Width])
 			{
 				zBuffer[i + j * Width] = z_interpolation;

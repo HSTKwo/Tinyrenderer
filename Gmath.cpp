@@ -27,15 +27,15 @@ Vector4 Vector4::normalize()
 	return Vector4(x /= length, y /= length, z /= length, w / length);
 }
 
-Vector3 Vector3::operator+(const Vector3& v)		//加法
+Vector3 Vector3::operator+(const Vector3& v)		//???
 {
 	return Vector3(x + v.x, y + v.y, z + v.z);
 }
-Vector3 Vector3::operator-(const Vector3& v)		//减法
+Vector3 Vector3::operator-(const Vector3& v)		//????
 {
 	return Vector3(x - v.x, y - v.y, z - v.z);
 }
-float Vector3::operator*(const Vector3& v)		//两个向量乘法
+float Vector3::operator*(const Vector3& v)		//???????????
 {
 	return x * v.x + y * v.y + z * v.z;
 }
@@ -47,12 +47,12 @@ Vector3 Vector3::operator*(float a)
 {
 	return Vector3(a * x, a * y, a * z);
 }
-Vector3 Vector3::operator/(float a)		//除法
+Vector3 Vector3::operator/(float a)		//????
 {
 	return Vector3(x / a, y / a, z / a);
 
 }
-bool Vector3::operator==(const  Vector3& v)		//判断向量是否相等
+bool Vector3::operator==(const  Vector3& v)		//?ж???????????
 {
 	return ((x == v.x) && (y == v.y) && (z == v.z));
 }
@@ -102,9 +102,9 @@ int Matrix::ncols()
 }
 Matrix::Matrix(int r, int c) : rows(r), cols(c) 
 {
-	m = vector<vector<float>>(r, vector<float>(c, 0.0f));		//r行c列
+	m = vector<vector<float>>(r, vector<float>(c, 0.0f));		//r??c??
 }
-Matrix Matrix::identity(int dimensions)							//dimensions维度
+Matrix Matrix::identity(int dimensions)							//dimensions???
 {
 	Matrix E(dimensions, dimensions);
 	for (int i = 0; i < dimensions; i++)
@@ -119,7 +119,7 @@ vector<float>& Matrix::operator[](const int i)
 }
 Matrix Matrix::operator*(const Matrix& a)
 {
-	assert(cols == a.rows);			//左列=右行
+	assert(cols == a.rows);			//????=????
 	Matrix ans(rows, a.cols);
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < a.cols; j++)
