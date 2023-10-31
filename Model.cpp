@@ -24,20 +24,6 @@ Model::Model(const char* filename) : verts_(), faces_()
             iss >> v.x >> v.y >> v.z;
             verts_.push_back(v);                   
         }
-        //else if (!line.compare(0, 3, "vt "))        //纹理坐标
-        //{
-        //    iss >> trash >> trash;
-        //    Vector2 uv;
-        //    iss >> uv.x >> uv.y;
-        //    uv_.push_back(uv);
-        //}
-        //else if (!line.compare(0, 3, "vn "))        //法线
-        //{
-        //    iss >> trash >> trash;
-        //    Vector3 normal;
-        //    iss >> normal.x >> normal.y >> normal.z;
-        //    norms_.push_back(normal);
-        //}
         else if (!line.compare(0, 2, "f "))         //三角形面片数据
         {
             vector<int> f;
@@ -52,7 +38,6 @@ Model::Model(const char* filename) : verts_(), faces_()
         }
     }
     std::cerr << "# v# " << verts_.size() << " f# " << faces_.size() << std::endl;//输出顶点与面片数量
-    //loadTexture(filename, "_diffuse.tga", diffuseMap_);
 }
 Model::~Model() 
 {
@@ -74,23 +59,3 @@ Vector3 Model::vert(int i)
     return verts_[i];
 }
 
-
-//void Model::loadTexture(string filename, const char* suffix, TGAImage& image)
-//{
-//    string texfile(filename);
-//    size_t dot = texfile.find_last_of(".");
-//    if (dot != string::npos) {
-//        texfile = texfile.substr(0, dot) + string(suffix);
-//        cerr << "texture file " << texfile << " loading " << (image.read_tga_file(texfile.c_str()) ? "ok" : "failed") << std::endl;
-//        image.flip_vertically();
-//    }
-//}
-//Vector2 Model::uv(int iface, int nvert)
-//{
-//    int idx = faces_[iface][nvert]; 
-//    return Vector2(uv_[idx].x * diffuseMap_.width(), uv_[idx].y * diffuseMap_.height());
-//}
-//TGAColor Model::diffuse(Vector2 uv)
-//{
-//    return diffuseMap_.get(uv.x, uv.y);
-//}

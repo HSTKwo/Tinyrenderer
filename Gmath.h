@@ -2,11 +2,11 @@
 #define __GEOMETRY_H__
 
 #pragma warning(disable:4996)
-#include<iostream>
-#include<algorithm>
+#include <iostream>
+#include <algorithm>
 #include <windows.h>
 #include <vector>
-#include<assert.h>
+#include <assert.h>
 using namespace std;
 
 #define white RGB(255,255,255)
@@ -15,9 +15,8 @@ using namespace std;
 #define yellow RGB(255,255,0)
 #define green RGB(0,255,128)
 #define blue RGB(0,255,255)
-#define Width 600		//屏幕宽度
-#define Height 600		//屏幕高度
-#define depth 255		//深度
+#define width 600		//屏幕宽度
+#define height 600		//屏幕高度
 
 //二维向量
 class Vector2
@@ -87,10 +86,9 @@ public:
 	Vector3 operator/(float);					//除法
 	bool operator==(const  Vector3&);			//判断向量是否相等
 	bool operator!=(const  Vector3&);
-	Vector3 Lerp(const Vector3&, const  Vector3&, float);	//线性插值
-	float normal();											//模长
-	Vector3 normalize();												//单位化
-	//friend Vector3* MultplyMatrix(float TT[4][4], Vector3& v3, int v3number);
+	Vector3 Lerp(const Vector3&, const  Vector3&, float);		//线性插值
+	float normal();												//模长
+	Vector3 normalize();										//单位化
 };
 
 //四维向量
